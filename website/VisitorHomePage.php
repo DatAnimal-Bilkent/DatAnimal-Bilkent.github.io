@@ -11,7 +11,19 @@
     </head>
 	<body>
 	    <?php
-	        echo "Welcome Mr/Miss ask from ligin page this";
+	        $query = "SELECT name, user_id FROM Users WHERE user_id = 1";
+	        $result = mysqli_query($conn,$query);
+	        $rowCount = mysqli_num_rows($result);
+	        if ($rowCount == 1) {
+	            $row = mysqli_fetch_assoc($result);
+	            $_SESSION['visitor_id'] = $row['user_id'];
+                $_SESSION['visitor_name'] = $row['name'];
+                echo "<br>"; echo "<br>";
+                echo "Welcome Mr/Miss ask from login page this ";
+                echo $_SESSION['visitor_name'];
+                echo $_SESSION['visitor_id'];
+	        }
+
 	    ?>
 
 	    <?php echo "<br>"; echo "<br>"; ?>
