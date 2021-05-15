@@ -40,7 +40,7 @@
             <input type="submit" value="Your Past Visits" />
         </form>
 
-        <form action ="/AttendGroupTour.php">
+        <form action ="/GroupTour.php">
             <input type="submit" value="Attend a Group Tour" />
         </form>
 
@@ -52,6 +52,6 @@
 
         <?php echo "<br>"; echo "<br>"; ?>
 
-        <a href = "Logout.php">Logout </a>
+        <a href = "/Logout.php">Logout </a>
 	</body>
 </html>

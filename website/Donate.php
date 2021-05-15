@@ -28,7 +28,7 @@
                 <th>Event Name</th>
                 <th>location</th>
                 <th>Date of Organization</th>
-                <th>Amount of Donation</th>
+                <th>Total of your Donation</th>
             </tr>
             <?php
                 $visitor_name = $_SESSION['visitor_name'];
@@ -71,29 +71,25 @@
 
         <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
             <tbody>
-            <tr  class='clickable-row' data-href='/Donate.php'>
+            <tr>
                 <th>Event Name</th>
                 <th>location</th>
                 <th>Date of Organization</th>
                 <th>Total Donated Money </th>
-
+                <th>Donate </th>
             </tr>
             </tbody>
-            <script>
-                        jQuery(document).ready(function($) {
-                            $(".clickable-row").click(function() {
-                                window.location = $(this).data("href");
-                            });
-                        });
-                    </script>
         <?php
             ob_start();
             $query = "SELECT DISTINCT e.event_id, e.name, e.location, e.date, c.CollectedMoney FROM Events AS e, Conservation_Organizations AS c WHERE e.event_id = c.event_id";
             $result = mysqli_query($conn,$query);
             if ($result->num_rows  > 0){
-                $row = mysqli_fetch_assoc($result);
-                $colMoney = $row['CollectedMoney'];
-                echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                while ($row = $result->fetch_assoc()){
+                    $colMoney = $row['CollectedMoney'];
+                    $_SESSION['money'] = $colMoney;
+                    echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                    echo "<td> <button onClick=makeDonate('$row[event_id]');> Donate </button> </td> ";
+                }
             }
             else{
                 echo "---------------There is not any Organization for Donate---------------";
@@ -111,9 +107,7 @@
                         $row= mysqli_fetch_assoc($result);
                         ob_end_clean();
                         echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
-                        echo "<tr><td>";
-                        echo "<input type = 'submit' name = 'submit_c' value = 'submit'> <br>";
-                        echo"</td></tr>";
+                        echo "<td> <button onClick=makeDonate('$organ');> Donate </button> </td> ";
                     }
                     else{
                         echo '<script>alert("There is not any Organization by this ID")</script>';
@@ -128,6 +122,7 @@
                         $colMoney = $row['CollectedMoney'];
                         ob_end_clean();
                         echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                        echo "<td> <button onClick=makeDonate('$row[event_id]');> Donate </button> </td> ";
                     }
                     else{
                         echo '<script>alert("There is not any Organization by this Name")</script>';
@@ -136,5 +131,12 @@
             }
         ?>
         </fieldset>
+        <script>
+        function makeDonate(a) {
+            var page='MakeDonation.php?varJS='+a;
+            document.location.href= page;
+
+        }
+        </script>
 	</body>
 </html>
