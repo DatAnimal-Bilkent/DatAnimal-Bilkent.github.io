@@ -11,6 +11,6 @@
 	else{
 		//this is for successful connection
 		echo "<br>";
-		echo "Welcome to Animal Farm System";
+		echo "Database Connected";
 	}
 ?>

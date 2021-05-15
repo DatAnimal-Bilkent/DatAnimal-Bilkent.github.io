@@ -9,6 +9,7 @@
     <head>
     		<title>Visitors Home Page</title>
     </head>
+    <h1> Welcome to DatAnimal</h1>
 	<body>
 	    <?php
 	        $query = "SELECT name, user_id FROM Users WHERE user_id = 1";
@@ -19,17 +20,17 @@
 	            $_SESSION['visitor_id'] = $row['user_id'];
                 $_SESSION['visitor_name'] = $row['name'];
                 echo "<br>"; echo "<br>";
-                echo "Welcome Mr/Miss ask from login page this ";
+                echo "Welcome Mr/Miss  ";
                 echo $_SESSION['visitor_name'];
-                echo $_SESSION['visitor_id'];
+                echo " ". $_SESSION['visitor_id'];
 	        }
 
 	    ?>
 
 	    <?php echo "<br>"; echo "<br>"; ?>
 
-        <fieldset>
-
+        <fieldset >
+            <legend>Select A Option</legend>
 	    <form action ="/Donate.php">
 	        <input type="submit" value="Donate DatAnimal" />
 	    </form>

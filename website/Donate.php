@@ -19,16 +19,15 @@
         <?php echo "<br>"; echo "<br>"; ?>
 
 
-        <h1>We will be Happy if You Donate our Organization</h1>
-        <?php echo "<br>"; echo "<br>"; ?>
+        <h1>We Will be Happy if You Donate Our Organization</h1>
         <?php echo "<br>"; echo "<br>"; ?>
         <fieldset Donations>
-            <legend>Your Donations</legend>
-	    <table>
+            <legend>Your Past Donations</legend>
+	    <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
             <tr>
                 <th>Event Name</th>
                 <th>location</th>
-                <th>Date</th>
+                <th>Date of Organization</th>
                 <th>Amount of Donation</th>
             </tr>
             <?php
@@ -43,7 +42,7 @@
                         $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id'";
                         $result1 = mysqli_query($conn,$query1);
                         $row1 = mysqli_fetch_assoc($result1);
-                        echo "<br><tr><td>---". $row1["name"]. "</td><td>---". $row1["location"]. "</td><td>---". $row1["date"]. "</td><td>---". $amount. " $";
+                        echo "<br><tr><td>". $row1["name"]. "</td><td>". $row1["location"]. "</td><td>". $row1["date"]. "</td><td>". $amount. " $";
                     }
 
                 }
@@ -55,17 +54,87 @@
        	</fieldset>
 
 
+        <fieldset Organization>
+            <legend>Organizations For Your Donation</legend>
        	<div id="container">
-        		<div id="info">
-        		    <form action = "" method="post">
-        			<fieldset Organization>
-                                <legend>Organizations </legend>
-        			    <input type="text" name="companyID" placeholder="12345678"><br />
-        			    <label for="companyID"> Company ID</label>
-        			    <input type="submit" value="Submit" />
-        			</fieldset>
-        		    </form>
-        		</div>
-        	</div>
+            <div id="info">
+                <form action = "" method="post">
+                    <?php echo "<br>"; echo "<br>"; ?>
+                    <label for="Organization"> Organization</label>
+                    <input type="text" name="Organization" placeholder="ID/Name"><br />
+                    <input type="submit" value="Search" />
+
+                </form>
+            </div>
+        </div>
+
+
+        <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
+            <tbody>
+            <tr  class='clickable-row' data-href='/Donate.php'>
+                <th>Event Name</th>
+                <th>location</th>
+                <th>Date of Organization</th>
+                <th>Total Donated Money </th>
+
+            </tr>
+            </tbody>
+            <script>
+                        jQuery(document).ready(function($) {
+                            $(".clickable-row").click(function() {
+                                window.location = $(this).data("href");
+                            });
+                        });
+                    </script>
+        <?php
+            ob_start();
+            $query = "SELECT DISTINCT e.event_id, e.name, e.location, e.date, c.CollectedMoney FROM Events AS e, Conservation_Organizations AS c WHERE e.event_id = c.event_id";
+            $result = mysqli_query($conn,$query);
+            if ($result->num_rows  > 0){
+                $row = mysqli_fetch_assoc($result);
+                $colMoney = $row['CollectedMoney'];
+                echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+            }
+            else{
+                echo "---------------There is not any Organization for Donate---------------";
+            }
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                $organ= mysqli_real_escape_string($conn, $_POST['Organization']);
+                if(is_numeric($organ)){
+                    $query = "SELECT CollectedMoney FROM Conservation_Organizations WHERE event_id = '$organ'";
+                    $result = mysqli_query($conn,$query);
+                    if ($result->num_rows  > 0){
+                        $row = mysqli_fetch_assoc($result);
+                        $colMoney = $row['CollectedMoney'];
+                        $query = "SELECT name, location, date FROM Events WHERE event_id = '$organ'";
+                        $result = mysqli_query($conn,$query);
+                        $row= mysqli_fetch_assoc($result);
+                        ob_end_clean();
+                        echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                        echo "<tr><td>";
+                        echo "<input type = 'submit' name = 'submit_c' value = 'submit'> <br>";
+                        echo"</td></tr>";
+                    }
+                    else{
+                        echo '<script>alert("There is not any Organization by this ID")</script>';
+                    }
+                }
+                else{
+                    $organ= mysqli_real_escape_string($conn, $_POST['Organization']);
+                    $query = "SELECT e.event_id, e.name, e.location, e.date, c.CollectedMoney FROM Events AS e, Conservation_Organizations AS c WHERE e.name= '$organ' AND e.event_id = c.event_id";
+                    $result = mysqli_query($conn,$query);
+                    if ($result->num_rows  > 0){
+                        $row = mysqli_fetch_assoc($result);
+                        $colMoney = $row['CollectedMoney'];
+                        ob_end_clean();
+                        echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                    }
+                    else{
+                        echo '<script>alert("There is not any Organization by this Name")</script>';
+                    }
+                }
+            }
+        ?>
+        </fieldset>
 	</body>
 </html>
