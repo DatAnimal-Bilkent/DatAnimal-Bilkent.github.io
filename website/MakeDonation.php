@@ -9,13 +9,14 @@
 ?>
 
 <html>
+    <?php ob_end_clean();?>
     <head>
             <title>Make Donation</title>
-        </head>
+    </head>
+
     <body>
 
         <?php
-              ob_end_clean();
               echo "<a href = 'VisitorHomePage.php'>Home Page </a>";
               echo "<br>"; echo "<br>";
               $org_id = $_GET['varJS'];

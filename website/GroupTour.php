@@ -28,6 +28,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>location</th>
+                <th>Quota </th>
                 <th>Date </th>
                 <th>spent Money</th>
             </tr>
@@ -43,8 +44,13 @@
                         $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id'";
                         $result1 = mysqli_query($conn,$query1);
                         $row1 = mysqli_fetch_assoc($result1);
-                        echo "<br><tr><td>". $ev_id. "</td><td>". $row1["name"]. "</td><td>". $row1["location"]. "</td><td>". $row1["date"]. "</td><td>". $amount. " $";
-
+                        $name = $row1['name'];
+                        $loc = $row1['location'];
+                        $date = $row1['date'];
+                        $query1 = "SELECT visitor_qouta FROM Group_Tours WHERE event_id = '$ev_id'";
+                        $result1 = mysqli_query($conn,$query1);
+                        $row1 = mysqli_fetch_assoc($result1);
+                        echo "<br><tr><td>". $ev_id. "</td><td>". $name. "</td><td>". $loc. "</td><td>". $row1['visitor_qouta']. "</td><td>". $date. "</td><td>". $amount. " $";
                     }
 
                 }
@@ -84,7 +90,7 @@
         <?php
             ob_start();
             $visitor_id = $_SESSION['visitor_id'];
-            $query = "SELECT e.event_id, e.name, e.location, e.date, g.price, g.visitor_qouta
+            $query = "SELECT DISTINCT e.event_id, e.name, e.location, e.date, g.price, g.visitor_qouta
                       FROM Events AS e, Group_Tours AS g, Attends a
                       WHERE e.event_id = g.event_id AND  (e.event_id NOT IN (SELECT event_id FROM Attends WHERE user_id = '$visitor_id')) ";
             $result = mysqli_query($conn,$query);
