@@ -35,16 +35,15 @@
 	        <input type="submit" value="Donate DatAnimal" />
 	    </form>
 
-
-	    <form action ="/PastVisit.php">
-            <input type="submit" value="Your Past Visits" />
-        </form>
-
         <form action ="/GroupTour.php">
-            <input type="submit" value="Attend a Group Tour" />
+            <input type="submit" value="Group Tours" />
         </form>
 
-        <form action ="/Complaints.php">
+         <form action ="/ChargeWallet.php">
+                    <input type="submit" value="Your Wallet" />
+         </form>
+
+        <form action ="/Complaint.php">
             <input type="submit" value="Your Complaints" />
         </form>
 

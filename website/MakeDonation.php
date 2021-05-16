@@ -13,11 +13,21 @@
     <head>
             <title>Make Donation</title>
     </head>
-
+        <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>";
+                echo "<br>"; echo "<br>";
+         ?>
+         <h1>We can Continue because of your donation</h1>
+        <?php
+              $visitor_id = $_SESSION['visitor_id'];
+              $query = "SELECT Total_amount_of_money FROM Visitors WHERE user_id = '$visitor_id' ";
+              $result = mysqli_query($conn,$query);
+              $row = mysqli_fetch_assoc($result);
+              $credit = $row['Total_amount_of_money'];
+              echo "Your Credit: <b>".$credit."$</b>";
+        ?>
     <body>
 
         <?php
-              echo "<a href = 'VisitorHomePage.php'>Home Page </a>";
               echo "<br>"; echo "<br>";
               $org_id = $_GET['varJS'];
               $visitor_id = $_SESSION['visitor_id'];
@@ -26,12 +36,12 @@
               $row = mysqli_fetch_assoc($result);
               if ($row > 0){
                   if ($row['gender'] == 'Female'){
-                      echo "We can Continue because of your donation Mr.<b>". $row['name']."</b>";
+                      echo "Mr.<b>". $row['name']."</b>";
                       echo "<br>"; echo "<br>";
                       echo "<br>"; echo "<br>";
                   }
                   else{
-                      echo "We can Continue because of your donation Ms.<b>". $row['name']."</b>";
+                      echo "Ms.<b>". $row['name']."</b>";
                       echo "<br>"; echo "<br>";
                       echo "<br>"; echo "<br>";
                   }

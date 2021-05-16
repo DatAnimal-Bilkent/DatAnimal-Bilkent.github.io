@@ -17,9 +17,18 @@
 	    <a href = "VisitorHomePage.php">Home Page </a>
         <?php echo "<br>"; echo "<br>"; ?>
         <?php echo "<br>"; echo "<br>"; ?>
-
-
         <h1>We Will be Happy if You Attend in Our Group Tours</h1>
+
+        <?php
+              $visitor_id = $_SESSION['visitor_id'];
+              $query = "SELECT Total_amount_of_money FROM Visitors WHERE user_id = '$visitor_id' ";
+              $result = mysqli_query($conn,$query);
+              $row = mysqli_fetch_assoc($result);
+              $credit = $row['Total_amount_of_money'];
+              echo "Your Credit: <b>".$credit."$<b>";
+        ?>
+
+
         <?php echo "<br>"; echo "<br>"; ?>
         <fieldset Donations>
             <legend>Your Attend In our Group Tours</legend>
