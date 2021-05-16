@@ -6,8 +6,6 @@ $pass     = $_POST['password'];
 $query = "SELECT * FROM Users WHERE user_id='$username' and password='$pass'";
 $result = mysqli_query($con, $query);
 mysqli_close($con);
-console.log("Numcordinators here");
-console.log("SELAM");
 
 $num = mysqli_num_rows($result);
 $_SESSION['username'] = $username;
@@ -49,7 +47,7 @@ if ($num > 0)
 
 	if ($numKeepers > 0)
 	{
-		header("Location: keeper.php");
+		header("Location: ../Keeper/keeper.php");
 		mysqli_close($con);
 		exit();
 	}
