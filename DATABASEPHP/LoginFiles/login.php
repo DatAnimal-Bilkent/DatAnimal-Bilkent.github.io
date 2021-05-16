@@ -34,7 +34,7 @@ if ($num > 0)
 
 	if ($numVisitors > 0)
 	{
-		header("Location: visitor.php");
+		header("Location: ../Visitors/VisitorHomePage.php");
 		mysqli_close($con);
 		exit();
 	}

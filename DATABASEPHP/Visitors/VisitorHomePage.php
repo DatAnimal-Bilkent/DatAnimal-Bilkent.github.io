@@ -1,5 +1,7 @@
 
 <?php
+$userID = $_SESSION['username'];
+
 	//include dataabase for connecting into the database
 	include("DatabaseConnection.php");
 	session_start();
@@ -15,7 +17,7 @@
 
 	<body>
 	    <?php
-	        $query = "SELECT name, user_id FROM Users WHERE user_id = 1";
+	        $query = "SELECT name, user_id FROM Users WHERE user_id = '$userID'";
 	        $result = mysqli_query($conn,$query);
 	        $rowCount = mysqli_num_rows($result);
 	        if ($rowCount == 1) {
