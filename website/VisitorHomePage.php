@@ -6,10 +6,13 @@
 ?>
 
 <html>
+
+    <a href = "/Logout.php">Logout </a>
     <head>
     		<title>Visitors Home Page</title>
     </head>
     <h1> Welcome to DatAnimal</h1>
+
 	<body>
 	    <?php
 	        $query = "SELECT name, user_id FROM Users WHERE user_id = 1";
@@ -51,6 +54,6 @@
 
         <?php echo "<br>"; echo "<br>"; ?>
 
-        <a href = "/Logout.php">Logout </a>
+
 	</body>
 </html>

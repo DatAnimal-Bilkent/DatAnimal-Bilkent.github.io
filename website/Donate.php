@@ -14,6 +14,8 @@
 	</head>
 
 	<body>
+	    <a href = "Logout.php">Logout </a>
+	    <br><br>
 	    <a href = "VisitorHomePage.php">Home Page </a>
         <?php echo "<br>"; echo "<br>"; ?>
         <?php echo "<br>"; echo "<br>"; ?>
@@ -24,11 +26,11 @@
               $result = mysqli_query($conn,$query);
               $row = mysqli_fetch_assoc($result);
               $credit = $row['Total_amount_of_money'];
-              echo "Your Credit: <b>".$credit."$<b>";
+              echo "Your Credit: <b>".$credit."$</b>";
         ?>
         <?php echo "<br>"; echo "<br>"; ?>
         <fieldset Donations>
-            <legend>Your Past Donations</legend>
+            <legend><b>Your Past Donations</b></legend>
 	    <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
             <tr>
                 <th>Event Name</th>
@@ -61,7 +63,7 @@
 
 
         <fieldset Organization>
-            <legend>Organizations For Your Donation</legend>
+            <legend><b>Organizations For Your Donation</b></legend>
        	<div id="container">
             <div id="info">
                 <form action = "" method="post">
@@ -135,6 +137,7 @@
                 }
             }
         ?>
+        </table>
         </fieldset>
         <script>
         function makeDonate(a) {
@@ -143,5 +146,8 @@
 
         }
         </script>
+
 	</body>
+	<br><br>
+<a href = "VisitorHomePage.php">Back </a>
 </html>

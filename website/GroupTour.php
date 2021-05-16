@@ -14,24 +14,27 @@
 	</head>
 
 	<body>
+	    <a href = "Logout.php">Logout </a>
+	    <br><br>
 	    <a href = "VisitorHomePage.php">Home Page </a>
         <?php echo "<br>"; echo "<br>"; ?>
         <?php echo "<br>"; echo "<br>"; ?>
         <h1>We Will be Happy if You Attend in Our Group Tours</h1>
 
         <?php
+
               $visitor_id = $_SESSION['visitor_id'];
               $query = "SELECT Total_amount_of_money FROM Visitors WHERE user_id = '$visitor_id' ";
               $result = mysqli_query($conn,$query);
               $row = mysqli_fetch_assoc($result);
               $credit = $row['Total_amount_of_money'];
-              echo "Your Credit: <b>".$credit."$<b>";
+              echo "Your Credit: <b>".$credit."$</b>";
         ?>
 
 
         <?php echo "<br>"; echo "<br>"; ?>
         <fieldset Donations>
-            <legend>Your Attend In our Group Tours</legend>
+            <legend><b>Your Attend In our Group Tours</b></legend>
 	    <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
             <tr>
                 <th>ID</th>
@@ -44,25 +47,28 @@
             <?php
                 $visitor_name = $_SESSION['visitor_name'];
                 $visitor_id = $_SESSION['visitor_id'];
+                $today_date = date("Y-m-d");
                 $query = "SELECT event_id, payment FROM Attends WHERE user_id = '$visitor_id'";
                 $result = mysqli_query($conn,$query);
                 if ($result->num_rows  > 0){
                     while ($row = $result->fetch_assoc()){
                         $ev_id = $row['event_id'];
                         $amount = $row['payment'];
-                        $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id'";
+                        $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id' AND date <= '$today_date'";
                         $result1 = mysqli_query($conn,$query1);
                         $row1 = mysqli_fetch_assoc($result1);
-                        $name = $row1['name'];
-                        $loc = $row1['location'];
-                        $date = $row1['date'];
-                        $query1 = "SELECT visitor_qouta FROM Group_Tours WHERE event_id = '$ev_id'";
-                        $result1 = mysqli_query($conn,$query1);
-                        $row1 = mysqli_fetch_assoc($result1);
-                        echo "<br><tr><td>". $ev_id. "</td><td>". $name. "</td><td>". $loc. "</td><td>". $row1['visitor_qouta']. "</td><td>". $date. "</td><td>". $amount. " $";
-                        echo "<td> <button onClick=comment('$row[event_id]');> Comment </button> </td> ";
+                        if ($row1 > 0){
+                            $_SESSION['ev_id'] = $row['event_id'];
+                            $name = $row1['name'];
+                            $loc = $row1['location'];
+                            $date = $row1['date'];
+                            $query1 = "SELECT visitor_qouta FROM Group_Tours WHERE event_id = '$ev_id'";
+                            $result1 = mysqli_query($conn,$query1);
+                            $row1 = mysqli_fetch_assoc($result1);
+                            echo "<br><tr><td>". $ev_id. "</td><td>". $name. "</td><td>". $loc. "</td><td>". $row1['visitor_qouta']. "</td><td>". $date. "</td><td>". $amount. " $";
+                            echo "<td> <button onClick=comment('$row[event_id]');> Comment </button> </td> ";
+                        }
                     }
-
                 }
                 else{
                     echo "---------------You Have Not Attend any Group Tours Yet---------------";
@@ -71,9 +77,9 @@
        	</table>
        	</fieldset>
 
-
+        <?php echo "<br>"; echo "<br>"; ?>
         <fieldset Organization>
-            <legend>Group Tours</legend>
+            <legend><b>Group Tours</b></legend>
        	<div id="container">
             <div id="info">
                 <form action = "" method="post">
@@ -154,6 +160,51 @@
                 }
             }
         ?>
+        </table>
+        </fieldset>
+        <?php echo "<br>"; echo "<br>"; ?>
+        <fieldset Donations>
+            <legend><b>Your upcoming Registered Group Tours</b></legend>
+        <table id='maintable' class='table-fill' cellpadding='0' border='1' cellspacing='0'>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>location</th>
+                <th>Quota </th>
+                <th>Date </th>
+            </tr>
+            <?php
+                $visitor_name = $_SESSION['visitor_name'];
+                $visitor_id = $_SESSION['visitor_id'];
+                $today_date = date("Y-m-d");
+                $query = "SELECT event_id, payment FROM Attends WHERE user_id = '$visitor_id'";
+                $result = mysqli_query($conn,$query);
+                if ($result->num_rows  > 0){
+                    while ($row = $result->fetch_assoc()){
+                        $ev_id = $row['event_id'];
+                        $amount = $row['payment'];
+                        $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id' AND date > '$today_date'";
+                        $result1 = mysqli_query($conn,$query1);
+                        $row1 = mysqli_fetch_assoc($result1);
+                        if ($row1 > 0){
+                            $query1 = "SELECT* FROM Events WHERE event_id = '$ev_id' AND date > '$today_date'";
+                            $result1 = mysqli_query($conn,$query1);
+                            $row1 = mysqli_fetch_assoc($result1);
+                            $name = $row1['name'];
+                            $loc = $row1['location'];
+                            $date = $row1['date'];
+                            $query1 = "SELECT visitor_qouta FROM Group_Tours WHERE event_id = '$ev_id'";
+                            $result1 = mysqli_query($conn,$query1);
+                            $row1 = mysqli_fetch_assoc($result1);
+                            echo "<br><tr><td>". $ev_id. "</td><td>". $name. "</td><td>". $loc. "</td><td>". $row1['visitor_qouta']. "</td><td>". $date;
+                        }
+                    }
+                }
+                else{
+                   echo "---------------There is not any Group_Tours For Attending---------------";
+                }
+           ?>
+        </table>
         </fieldset>
         <script>
         function makeDonate(a) {
@@ -167,4 +218,6 @@
         }
         </script>
 	</body>
+	<br><br>
+        <a href = "VisitorHomePage.php">Back </a>
 </html>

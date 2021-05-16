@@ -10,14 +10,17 @@
 
 <html>
     <?php ob_end_clean(); ?>
+    <a href = "Logout.php">Logout </a>
+    <br><br>
     <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>"?>
     <?php echo "<br>";echo "<br>";?>
+    <br><br>
     <head>
         <title>Register to Group tour</title>
     </head>
     <body>
         <fieldset Organization>
-                    <legend>Group Tour</legend>
+                    <legend><b>Group Tour</b></legend>
         <?php
             $org_id = $_GET['varJS'];
             $visitor_id = $_SESSION['visitor_id'];
@@ -78,4 +81,6 @@
             onclick="return confirm('Are you sure you want to pay and participate in this Group Tour?')" />
         </form>
     </body>
+    <br><br>
+       <a href = "GroupTour.php">Back </a>
 </html>

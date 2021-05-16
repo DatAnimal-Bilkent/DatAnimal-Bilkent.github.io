@@ -10,6 +10,8 @@
 
 <html>
     <?php ob_end_clean(); ?>
+    <a href = "Logout.php">Logout </a>
+    <br><br>
     <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>"?>
     <?php echo "<br>";echo "<br>";?>
     <head>

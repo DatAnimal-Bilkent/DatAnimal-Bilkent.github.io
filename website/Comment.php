@@ -10,6 +10,8 @@
 
 <html>
     <?php ob_end_clean(); ?>
+    <a href = "Logout.php">Logout </a>
+    <br><br>
     <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>"?>
     <?php echo "<br>";echo "<br>";?>
     <head>
@@ -90,7 +92,6 @@
                     $result = mysqli_query($conn,$query);
                     echo "<script>";
                     echo "window.location.href = 'GroupTour.php'";
-
                     echo "</script>";
                 }
                 else {
@@ -101,6 +102,8 @@
         ?>
 
     </body>
+    	<br><br>
+            <a href = "GroupTour.php">Back </a>
     <style>
         .box{
             border: 1px solid #aaa; /*getting border*/

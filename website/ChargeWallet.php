@@ -12,6 +12,8 @@
     <head>
     		<title>Wallet</title>
     </head>
+    <a href = "Logout.php">Logout </a>
+    <br><br>
     <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>";
           echo "<br>"; echo "<br>";
     ?>

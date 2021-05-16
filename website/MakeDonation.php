@@ -13,6 +13,8 @@
     <head>
             <title>Make Donation</title>
     </head>
+        <a href = "Logout.php">Logout </a>
+        <br><br>
         <?php echo "<a href = 'VisitorHomePage.php'>Home Page </a>";
                 echo "<br>"; echo "<br>";
          ?>
@@ -143,6 +145,8 @@
         }
         ?>
     </body>
+    <br><br>
+    <a href = "Donate.php">Back </a>
     <script>
     </script>
 </html>

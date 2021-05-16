@@ -10,7 +10,7 @@
 	} 
 	else{
 		//this is for successful connection
-		echo "<br>";
-		echo "Database Connected";
+		//echo "<br>";
+		//echo "Database Connected";
 	}
 ?>
