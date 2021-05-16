@@ -37,7 +37,7 @@ if (!empty($_POST['treatmentAnimal']))
 }
 
 
-$query = "Select Animals.name aName, Users.name vName, date_time, treatment_status from (Animals natural join Request_Treatment inner join Users on vet_user_id=user_id) where keeper_user_id='$userID';";
+$query = "Select Animals.name aName, Users.name vName, date_time, acc_status from (Animals natural join Request_Treatment inner join Users on vet_user_id=user_id) where keeper_user_id='$userID';";
 $result = mysqli_query($con, $query);
 
 mysqli_close($con);
@@ -61,10 +61,10 @@ mysqli_close($con);
 			$treatmentDate = strtotime($resultRow["date_time"]);
             $animalName = $resultRow["aName"];
             $vetName = $resultRow["vName"];
-            $treatmentStatus = $resultRow["treatment_status"];
+            $accStatus = $resultRow["acc_status"];
             $usefulDate = date('Y-m-d',$treatmentDate);
-
-			echo "<b>Date:</b> $usefulDate <b>Animal Name:</b> $animalName <b>Vet Name:</b> $vetName <b>Status:</b> $treatmentStatus";
+            
+			echo "<b>Date:</b> $usefulDate <b>Animal Name:</b> $animalName <b>Vet Name:</b> $vetName <b>Acceptance Status:</b> $accStatus";
             echo "<br><br/>";
 		}
 	}else{
