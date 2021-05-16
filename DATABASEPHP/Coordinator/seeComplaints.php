@@ -1,3 +1,8 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -14,10 +19,8 @@
     //$sname = $_SESSION['name'];
     echo "Complaints\n";
 
+    $uid = $_SESSION['username'];
     
-    // TODO
-    // $uid = $_SESSION['uid'];
-    $uid = 1;
     ?>  
     
     <br><br />

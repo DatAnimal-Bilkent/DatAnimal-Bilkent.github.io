@@ -1,3 +1,8 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -26,9 +31,9 @@
         <?php
         $cd = $_GET['cid'];
         echo "<input type='hidden' name = 'cid' value = $cd>";
-        // TODO
-        // $uid = $_SESSION['uid'];
-        $uid = 1;
+        
+        $uid = $_SESSION['username'];
+
         $conn = new mysqli("dijkstra.cs.bilkent.edu.tr:3306", "mert.duran", "mkyRf3AL", "mert_duran");
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
@@ -65,9 +70,7 @@
         }
         $cd = $_GET['cid'];
 
-        // TODO
-        // $uid = $_SESSION['uid'];
-        $uid = 1;
+        $uid = $_SESSION['username'];
 
         $ttxt = $_GET['message'];
         $currentDate = date("Y-m-d");

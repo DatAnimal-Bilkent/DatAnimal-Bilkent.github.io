@@ -1,3 +1,7 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -66,9 +70,8 @@
             if ($conn->connect_error) {
                 die("Connection failed: " . $conn->connect_error);
             }
-            // TODO
-            //$currentUser = $_SESSION['userid'];
-            $currentUser = 1;
+            
+            $currentUser = $_SESSION['username'];
             $eventid = 0;
             
             $queryStr = "SELECT max(event_id)+1 as tmp from Events";

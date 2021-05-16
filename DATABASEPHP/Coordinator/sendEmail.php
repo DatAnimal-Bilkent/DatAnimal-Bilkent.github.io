@@ -1,4 +1,9 @@
 <?php
+session_start();
+$uid = $_SESSION['username'];
+?>
+
+<?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 //use PHPMailer\PHPMailer\Exception;

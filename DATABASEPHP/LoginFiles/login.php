@@ -21,7 +21,7 @@ if ($num > 0)
 
 	if ($numCoordinators > 0)
 	{
-		header("Location: coordinator.php");
+		header("Location: ../Coordinator/CoordinatorMain.php");
 		mysqli_close($con);
 		exit();
 	}

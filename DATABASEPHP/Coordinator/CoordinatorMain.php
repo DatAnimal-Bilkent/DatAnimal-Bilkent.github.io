@@ -1,13 +1,30 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html>
 
 <body>
 
     <?php
-    // TODO
-    // $uname = $_SESSION['name'];
-    $uname = "Berdan";
+    
+    $uname = $_SESSION['username'];
+    
+    
+
+    $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
+
+    $query = "Select * from Users where user_id='$userID'";
+    $result = mysqli_query($con, $query);
+
+    if ($result->num_rows == 1) {
+    $resultRow = $result->fetch_array();
+    $uname = $resultRow["name"];
+    }
+
     echo "Welcome $uname\n";
+
     ?>
     <br><br />
     <form method="get" >

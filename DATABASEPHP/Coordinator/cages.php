@@ -1,3 +1,7 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -12,12 +16,11 @@
     <br></br>
 
     <?php
-    //$sname = $_SESSION['name'];
     echo "Assign Cages To Keepers\n";
 
-    // TODO
-    // $uid = $_SESSION['uid'];
-    $uid = 1;
+    
+    $uid = $_SESSION['username'];
+    //$uid = 1;
     ?>  
     <br><br />
     <form method="get" >
@@ -111,6 +114,7 @@
     <?php
         for($i = 0; $i < $cnt; $i ++)
         {
+            $uid = $_SESSION['username'];
             if (array_key_exists("assign$i", $_GET))
             {
                 $keeperid = $_GET["select$i"];

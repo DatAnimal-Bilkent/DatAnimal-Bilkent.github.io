@@ -1,3 +1,8 @@
+<?php
+session_start();
+$uid = $_SESSION['username'];
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -13,11 +18,8 @@
     <?php
     //$sname = $_SESSION['name'];
     echo "Invite Veterinarians To Educational Programs\n";
+    $uid = $_SESSION['username'];
 
-    
-    // TODO
-    // $uid = $_SESSION['id'];
-    $uid = 1;
     ?>  
     
     <br><br />
@@ -73,9 +75,8 @@
         $vetid = $_GET['vets'];
         $eventid = $_GET['programs'];
         
-        // TODO
-        // $uid = $_SESSION['uid'];
-        $uid = 1; 
+        $uid = $_SESSION['username'];
+        
 
         $queryStr = "INSERT INTO Invites_Edu VALUES($vetid, $uid, $eventid,'pending')";
         $result = mysqli_query($conn, $queryStr);
