@@ -41,8 +41,7 @@
                 $visitor_id = $_SESSION['visitor_id'];
                 $query = "SELECT event_id, donation_amount FROM Make_Donation WHERE user_id = '$visitor_id'";
                 $result = mysqli_query($conn,$query);
-
-               if ($result->num_rows  > 0){
+                if ($result->num_rows  > 0){
                     while ($row = $result->fetch_assoc()){
                         $ev_id = $row['event_id'];
                         $amount = $row['donation_amount'];
@@ -70,7 +69,6 @@
                     <label for="Organization"> Organization</label>
                     <input type="text" name="Organization" placeholder="ID/Name"><br />
                     <input type="submit" value="Search" />
-
                 </form>
             </div>
         </div>

@@ -60,6 +60,7 @@
                         $result1 = mysqli_query($conn,$query1);
                         $row1 = mysqli_fetch_assoc($result1);
                         echo "<br><tr><td>". $ev_id. "</td><td>". $name. "</td><td>". $loc. "</td><td>". $row1['visitor_qouta']. "</td><td>". $date. "</td><td>". $amount. " $";
+                        echo "<td> <button onClick=comment('$row[event_id]');> Comment </button> </td> ";
                     }
 
                 }
@@ -109,7 +110,7 @@
                     $colMoney = $row['price'];
                     $_SESSION['money'] = $colMoney;
                     echo "<br><tr><td>". $row["event_id"]. "</td><td>".$row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $row["visitor_qouta"]. "</td><td>". $colMoney. " $";
-                    echo "<td> <button onClick=makeDonate('$row[event_id]');> Donate </button> </td> ";
+                    echo "<td> <button onClick=makeDonate('$row[event_id]');> Register </button> </td> ";
                 }
             }
             else{
@@ -159,6 +160,10 @@
             var page='Register.php?varJS='+a;
             document.location.href= page;
 
+        }
+        function comment(a) {
+            var page='Comment.php?varJS='+a;
+            document.location.href= page;
         }
         </script>
 	</body>
