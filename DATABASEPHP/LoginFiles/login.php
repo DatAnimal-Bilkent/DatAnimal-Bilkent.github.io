@@ -60,7 +60,7 @@ if ($num > 0)
 
 	if ($numVet > 0)
 	{
-		header("Location: veterinarian.php");
+		header("Location: ../Veterinarians/veterinarian.php");
 		mysqli_close($con);
 		exit();
 	}
