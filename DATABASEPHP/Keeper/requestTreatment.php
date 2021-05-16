@@ -3,7 +3,6 @@ session_start();
 $userID = $_SESSION['username'];
 $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
 
-
 $insertOutput = 0;
 if (!empty($_POST['treatmentAnimal']))
 {
@@ -25,19 +24,20 @@ if (!empty($_POST['treatmentAnimal']))
         $cageID = $resultRow["cage_id"];
         $resultRow = $VetIDResult->fetch_array();
         $vetID = $resultRow["user_id"];
-        $date = $_POST['treatmentData'];
+        $date = $_POST['treatmentDate'];
         
-        $insertQuery = "insert into Request_Treatment values('$animalID', '$userID', '$vetID', '$date', '$cageID', 'Incomplete', 'no idea')";
+
+        $insertQuery = "insert into Request_Treatment values('$animalID', '$userID', '$vetID', '$date', '$cageID', 'Incomplete', 'pending')";
         if( mysqli_query($con, $insertQuery)){
-            echo "Insertion succesful";
+            $insertOutput = 1;
         }else{
-            echo "Insertion unsuccesful";
+            $insertOutput = -1;
         }
     }
 }
 
 
-$query = "Select * from Animals natural join Request_Treatment where keeper_user_id='$userID'";
+$query = "Select Animals.name aName, Users.name vName, date_time, treatment_status from (Animals natural join Request_Treatment inner join Users on vet_user_id=user_id) where keeper_user_id='$userID';";
 $result = mysqli_query($con, $query);
 
 mysqli_close($con);
@@ -45,35 +45,27 @@ mysqli_close($con);
 
 <!DOCTYPE HTML>  
 <html>
-<form name ="formLog" onsubmit="return validateForm()" action = "../index.php" method = "POST">
+<form name ="formLog" action = "../index.php" method = "POST">
         <input type="submit" value="Logout"> 
 </form>
 <b1><br/>
-<button onclick='history.go(-1);'>Go Back </button>
+<form name ="formLog" action = "keeper.php" method = "POST">
+        <input type="submit" value="Go Back "> 
+</form>
 
 <?php
     echo "<br><br/>";
 	echo "<h3>Requested Treatments :</h3>";
 	if($result->num_rows > 0){
 		while($resultRow = $result->fetch_array()){
-			$treatmentDate = $resultRow["date_time"];
-            $animalID = $resultRow["animal_id"];
-            $vetID = $resultRow["vet_user_id"];
+			$treatmentDate = strtotime($resultRow["date_time"]);
+            $animalName = $resultRow["aName"];
+            $vetName = $resultRow["vName"];
             $treatmentStatus = $resultRow["treatment_status"];
+            $usefulDate = date('Y-m-d',$treatmentDate);
 
-            $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
-            $vetNameQuery = "Select name from Users where user_id='$vetID'";
-            $result = mysqli_query($con, $vetNameQuery);
-            $resultRow = $result->fetch_array();
-            $vetName = $resultRow["name"];
-
-            $animalNameQuery = "Select name from Animals where animal_id='$animalID'";
-            $result = mysqli_query($con, $animalNameQuery);
-            $resultRow = $result->fetch_array();
-            $animalName = $resultRow["name"];
-
-            mysqli_close($con);
-			echo "<b>Date:</b> $treatmentDate <b>Animal Name:</b> $animalName <b>Vet Name:</b> $vetName <b>Status:</b> $treatmentStatus";
+			echo "<b>Date:</b> $usefulDate <b>Animal Name:</b> $animalName <b>Vet Name:</b> $vetName <b>Status:</b> $treatmentStatus";
+            echo "<br><br/>";
 		}
 	}else{
 		echo "No treatments have been assigned";
@@ -94,7 +86,15 @@ mysqli_close($con);
         <br><br/>
         <input type="submit" value="Request"> 
 </form>
+<b1><br/>
 
+<?php
+    if($insertOutput == 1){
+        echo "Treatment has been succesfuly requested";
+    }else if($insertOutput == -1){
+        echo "ERROR! Request Failed - A Treatment with the same values already exists!";
+    }   
+?>
 
 <script>
 	function validateForm() 
