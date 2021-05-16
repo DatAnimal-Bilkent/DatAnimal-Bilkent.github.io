@@ -1,0 +1,12 @@
+{
+    "name": "berdan/public_html",
+    "authors": [
+        {
+            "name": "Berdan Akyürek",
+            "email": "berdan.akyurek@ug.bilkent.edu.tr"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.4"
+    }
+}
