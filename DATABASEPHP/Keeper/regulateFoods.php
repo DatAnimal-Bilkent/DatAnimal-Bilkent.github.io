@@ -3,6 +3,26 @@ session_start();
 $userID = $_SESSION['username'];
 $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
 
+if( $_POST['foodItems'] != ''){
+        $foodItemName = $_POST['foodItems'];
+        $cage = $_POST['cages'];
+        echo "$foodItemOption";
+    
+        $query = "select food_id from Foods where name='$foodItemName';";
+        $result = mysqli_query($con, $query);
+        $resultRow = $result->fetch_array();
+            $foodID = $resultRow["food_id"];
+        $today = date("Y-m-d");
+    
+        $insertQuery = "insert into Regularizes_Food values('$userID', '$cage', '$foodID', '$today')";
+        if( mysqli_query($con, $insertQuery)){
+            echo "<script type='text/javascript'>alert('Insertion Succesful!');</script>";
+        }else{
+            echo "<script type='text/javascript'>alert('Insertion Unsuccesful!');</script>";
+        }
+    
+    }
+
 $query = "Select cage_id, Foods.name fName, expiration_date, amount, food_type, unit from (Regularizes_Food natural join Foods natural join Food_Stocks natural join Stocks) where user_id='$userID';";
 $result = mysqli_query($con, $query);
 

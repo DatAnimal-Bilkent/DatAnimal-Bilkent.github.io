@@ -90,7 +90,7 @@ $query = "select cage_id from Assigns_Cage where keeper_user_id='$userID';";
 $result = mysqli_query($con, $query);
 
 
-echo "<form name ='inputForm' onsubmit='return validateForm()' action ='regulateFoodsP2.php' method='POST'>";
+echo "<form name ='inputForm' onsubmit='return validateForm()' action ='regulateFoods.php' method='POST'>";
 echo "<label for='cages'>Choose a Cage:</label>";
 echo "<select name='cages' id='cages'> form=inputForm'";
 echo "<option value=''></option>";
@@ -107,8 +107,8 @@ $result = mysqli_query($con, $query);
 $iT = $_POST['foodTypes'];
 $cage = $_POST['cages'];
 echo "<script type='text/javascript'> typeSelect('$cage', 'cages'); </script>";
-$query = "select name, amount, unit from Foods natural join Food_Stocks natural join Stocks where food_type='$iT' 
-NOT IN (SELECT * FROM Regularizes_Food) ;";
+$query = "select name, amount, unit, food_id from Foods natural join Food_Stocks natural join Stocks where food_type='$iT';";
+
 $itemResult = mysqli_query($con, $query);
 $temp = $itemResult->num_rows;
 
@@ -120,7 +120,14 @@ for($i=0; $i < $itemResult->num_rows; $i++){
     $foodItemOption = $resultRow['name'];
     $foodItemAmount = $resultRow['amount'];
     $foodItemUnit = $resultRow['unit'];
-    echo "<option value='$foodItemOption'>$foodItemOption($foodItemAmount $foodItemUnit)</option>";
+
+    $foodID = $resultRow['food_id'];
+    $query2 = "select food_id from Regularizes_Food where food_id='$foodID';";
+    $query2Result = mysqli_query($con, $query2);
+
+    if($query2Result->num_rows == 0){
+        echo "<option value='$foodItemOption'>$foodItemOption($foodItemAmount $foodItemUnit)</option>";
+    }
 }
 echo "</select>";
 echo "<br></br>";

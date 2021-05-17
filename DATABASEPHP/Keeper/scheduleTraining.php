@@ -97,7 +97,7 @@ for($i=0; $i < $result->num_rows; $i++){
         $resultRow = $result->fetch_array();
         $animalName = $resultRow['name'];
         $animalSpecies = $resultRow['species'];
-        echo "<option value='$animalName'>Cage $animalName ($animalSpecies)</option>";
+        echo "<option value='$animalName'>$animalName ($animalSpecies)</option>";
 }
 echo "</select><br></br>             ";
 
