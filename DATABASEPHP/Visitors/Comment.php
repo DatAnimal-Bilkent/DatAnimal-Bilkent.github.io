@@ -48,16 +48,21 @@
         <?php
             $visitor_id = $_SESSION['visitor_id'];
             $org_id = $_GET['varJS'];
+            echo $org_id;
             echo "<fieldset >";
             echo "<legend>Comments</legend>";
             echo "<br>";echo "<br>";
-            $query = "SELECT text, date, user_id FROM Comments WHERE event_id = '$org_id'";
+            $query = "SELECT comment_id, user_id FROM Writes_Comment WHERE event_id = '$org_id'";
             $result = mysqli_query($conn,$query);
             if ($result->num_rows  > 0){
                 while ($row = $result->fetch_assoc()){
-                    $com_text = $row['text'];
-                    $com_date = $row['date'];
+                    $com_id = $row['comment_id'];
                     $user_id = $row['user_id'];
+                    $query1 = "SELECT text, date FROM Comments WHERE comment_id = '$com_id'";
+                    $result1 = mysqli_query($conn,$query1);
+                    $row1 = mysqli_fetch_assoc($result1);
+                    $com_text = $row1['text'];
+                    $com_date= $row1['date'];
                     $query1 = "SELECT name FROM Users WHERE user_id = '$user_id'";
                     $result1 = mysqli_query($conn,$query1);
                     $row1 = mysqli_fetch_assoc($result1);
@@ -88,7 +93,10 @@
                     $com_id = mt_rand();
                     $date = date("Y-m-d");
                     $query = "INSERT INTO Comments
-                              VALUES ('$com_id', '$complaint', '$date', '$org_id', '$visitor_id')";
+                              VALUES ('$com_id', 'same', '$complaint', 'date')";
+                    $result = mysqli_query($conn,$query);
+                    $query = "INSERT INTO Writes_Comment
+                              VALUES ('$com_id', '$org_id', '$visitor_id')";
                     $result = mysqli_query($conn,$query);
                     echo "<script>";
                     echo "window.location.href = 'GroupTour.php'";
