@@ -72,7 +72,7 @@ if ($num > 0)
 
 	if ($numFac > 0)
 	{
-		header("Location: facilityworker.php");
+		header("Location: ../FacilityWorker/facilityworker.php");
 		mysqli_close($con);
 		exit();
 	}

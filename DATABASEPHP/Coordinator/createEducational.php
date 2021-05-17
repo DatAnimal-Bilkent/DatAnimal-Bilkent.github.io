@@ -62,7 +62,7 @@ $uid = $_SESSION['username'];
                 echo "You have to fill all fields. \n";
                 return;
             }
-            session_start();
+            //session_start();
             // Create connection
             $conn = new mysqli("dijkstra.cs.bilkent.edu.tr:3306", "mert.duran", "mkyRf3AL", "mert_duran");
             //echo "Clicked";
