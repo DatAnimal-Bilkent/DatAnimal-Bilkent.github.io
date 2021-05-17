@@ -15,7 +15,7 @@ $uid = $_SESSION['username'];
 
     $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
 
-    $query = "Select * from Users where user_id='$userID'";
+    $query = "Select * from Users where user_id='$uid'";
     $result = mysqli_query($con, $query);
 
     if ($result->num_rows == 1) {
