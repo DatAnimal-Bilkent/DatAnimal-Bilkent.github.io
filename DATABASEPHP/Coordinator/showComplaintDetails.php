@@ -75,7 +75,7 @@ $uid = $_SESSION['username'];
         $ttxt = $_GET['message'];
         $currentDate = date("Y-m-d");
 
-        $queryStr = "INSERT INTO Respond_complaint VALUES($cd, $uid, '$ttxt', $currentDate);";
+        $queryStr = "INSERT INTO Respond_complaint VALUES($cd, $uid, '$ttxt', '$currentDate');";
         $result = mysqli_query($conn, $queryStr);
         echo "<script>alert('Complaint Replied Successfully'); window.location.href='seeComplaints.php';</script>";
     }

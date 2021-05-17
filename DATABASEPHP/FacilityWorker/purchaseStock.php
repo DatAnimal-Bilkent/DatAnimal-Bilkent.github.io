@@ -119,7 +119,7 @@ $uid = $_SESSION['username'];
             }
             $remainingMoney = $row['collected_money'] - $price;
 
-            $queryStr = "INSERT INTO Stocks VALUES($stockid, '$unit', $currentDate );";
+            $queryStr = "INSERT INTO Stocks VALUES($stockid, '$unit', '$currentDate' );";
             $result = mysqli_query($conn, $queryStr);
 
             $queryStr = "INSERT INTO Item_Stocks VALUES($stockid, '$item', $amount );";

@@ -104,7 +104,7 @@
             if($_SERVER["REQUEST_METHOD"] == "POST"){
                 $organ= mysqli_real_escape_string($conn, $_POST['Organization']);
                 if(is_numeric($organ)){
-                    $query = "SELECT CollectedMoney FROM Conservation_Organizations WHERE event_id = '$organ'";
+                    $query = "SELECT CollectedMoney FROM Conservation_Organizations WHERE event_id LIKE '$organ'";
                     $result = mysqli_query($conn,$query);
                     if ($result->num_rows  > 0){
                         $row = mysqli_fetch_assoc($result);
@@ -122,14 +122,30 @@
                 }
                 else{
                     $organ= mysqli_real_escape_string($conn, $_POST['Organization']);
-                    $query = "SELECT e.event_id, e.name, e.location, e.date, c.CollectedMoney FROM Events AS e, Conservation_Organizations AS c WHERE e.name= '$organ' AND e.event_id = c.event_id";
+                    $query = "SELECT DISTINCT event_id, name, location, date, CollectedMoney FROM Events NATURAL JOIN Conservation_Organizations WHERE name LIKE '%$organ%';";
                     $result = mysqli_query($conn,$query);
+
+                    
                     if ($result->num_rows  > 0){
-                        $row = mysqli_fetch_assoc($result);
-                        $colMoney = $row['CollectedMoney'];
                         ob_end_clean();
-                        echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
-                        echo "<td> <button onClick=makeDonate('$row[event_id]');> Donate </button> </td> ";
+                        while($row = mysqli_fetch_assoc($result))
+                        {
+                            $temp = $row['event_id'];
+                            $query = "SELECT * FROM Conservation_Organizations WHERE event_id = $temp";
+                            $result1 = mysqli_query($conn,$query);
+
+                            if(mysqli_num_rows($result1) != 0)
+                            {
+                                $colMoney = $row['CollectedMoney'];
+                            
+                            
+                                echo "<br><tr><td>". $row["name"]. "</td><td>". $row["location"]. "</td><td>". $row["date"]. "</td><td>". $colMoney. " $";
+                                echo "<td> <button onClick=makeDonate('$row[event_id]');> Donate </button> </td> </tr> ";
+                            }
+                            
+                        }
+                        //
+                        
                     }
                     else{
                         echo '<script>alert("There is not any Organization by this Name")</script>';

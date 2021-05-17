@@ -33,8 +33,6 @@ $uid = $_SESSION['username'];
         <input type="radio" name="filters" value="unreplied">Show Unreplied Complaints
         <br><br />
         <input type="submit" name="applyfilters" value="Apply Filters" action=>
-    
-        <br><br />
         <?php
         $queryStr = "";
 
