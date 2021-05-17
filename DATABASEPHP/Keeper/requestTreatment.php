@@ -4,13 +4,13 @@ $userID = $_SESSION['username'];
 $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
 
 $insertOutput = 0;
-if (!empty($_POST['treatmentAnimal']))
+if (!empty($_POST['animals']))
 {
-    $queryAnimalName = $_POST['treatmentAnimal'];
+    $queryAnimalName = $_POST['animals'];
     $animalIDQuery = "Select * from Animals where name='$queryAnimalName'";
     $animalIDResult = mysqli_query($con, $animalIDQuery);
     
-    $queryVetName = $_POST['treatmentVet'];
+    $queryVetName = $_POST['vets'];
     $VetIDQuery = "Select user_id from Users where name='$queryVetName'";
     $VetIDResult = mysqli_query($con, $VetIDQuery);
 
@@ -79,11 +79,40 @@ mysqli_close($con);
 <form name ="treatmentForm" onsubmit="return validateForm()" action = "requestTreatment.php" method = "POST">
         <label>Date</label>
         <input type = "date" name = "treatmentDate">
-        <label>Animal</label>
-        <input type = "text" name = "treatmentAnimal">
-        <label>Vet</label>
-        <input type = "text" name = "treatmentVet">
-        <br><br/>
+        <label for='animals'>Animal</label>
+        <select name='animals' id='animals'>
+        <option value=''></option>
+        <?php
+            $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
+            $query = "select name, species from Assigns_Cage natural join Animals natural join Cages where keeper_user_id='$userID';";
+            $result = mysqli_query($con, $query);
+            for($i=0; $i < $result->num_rows; $i++){
+                $resultRow = $result->fetch_array();
+                $animalName = $resultRow['name'];
+                $animalSpecies = $resultRow['species'];
+                echo "<option value='$animalName'>$animalName ($animalSpecies)</option>";
+            }
+            mysqli_close($con);
+        ?>
+        </select><br></br>
+        
+        <label for='vets'>Vet</label>
+        <select name='vets' id='vets'>
+        <option value=''></option>
+        <?php
+            $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
+            $query = "select name, speciality from Users natural join Veterinarians;";
+            $result = mysqli_query($con, $query);
+            for($i=0; $i < $result->num_rows; $i++){
+                $resultRow = $result->fetch_array();
+                $vetName = $resultRow['name'];
+                $vetSpeciality = $resultRow['speciality'];
+                echo "<option value='$vetName'>$vetName ($vetSpeciality)</option>";
+            }
+            mysqli_close($con);
+        ?>
+        </select><br></br>
+
         <input type="submit" value="Request"> 
 </form>
 <b1><br/>
@@ -99,8 +128,8 @@ mysqli_close($con);
 <script>
 	function validateForm() 
 	{
-        if (document.forms["treatmentForm"]["treatmentAnimal"].value == "" || 
-        document.forms["treatmentForm"]["treatmentVet"].value == "" ||
+        if (document.getElementById("animals").value == "" || 
+        document.getElementById("vets").value == ""  ||
         document.forms["treatmentForm"]["treatmentDate"].value == "" ){
         	alert("Fields can not be empty");
         	return false;
