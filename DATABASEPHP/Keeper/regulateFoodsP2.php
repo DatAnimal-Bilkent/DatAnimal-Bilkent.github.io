@@ -3,8 +3,28 @@ session_start();
 $userID = $_SESSION['username'];
 $con = mysqli_connect("dijkstra.ug.bcc.bilkent.edu.tr","mert.duran","mkyRf3AL","mert_duran");
 
+if( $_POST['foodItems'] != ''){
+    $foodItemName = $_POST['foodItems'];
+    $cage = $_POST['cages'];
+    echo "$foodItemOption";
+
+    $query = "select food_id from Foods where name='$foodItemName';";
+    $result = mysqli_query($con, $query);
+    $resultRow = $result->fetch_array();
+	$foodID = $resultRow["food_id"];
+    $today = date("Y-m-d");
+
+    $insertQuery = "insert into Regularizes_Food values('$userID', '$cage', '$foodID', '$today')";
+    if( mysqli_query($con, $insertQuery)){
+        echo "<script type='text/javascript'>alert('Insertion Succesful!');</script>";
+    }else{
+        echo "<script type='text/javascript'>alert('Insertion Unsuccesful!');</script>";
+    }
+
+}
 $query = "Select cage_id, Foods.name fName, expiration_date, amount, food_type, unit from (Regularizes_Food natural join Foods natural join Food_Stocks natural join Stocks) where user_id='$userID';";
 $result = mysqli_query($con, $query);
+
 
 mysqli_close($con);
 ?>
@@ -18,11 +38,11 @@ mysqli_close($con);
 <script type="text/javascript">
 function validateForm() {
         if (document.getElementById("cages").value == ""){
-        	alert("Cage and Food Type options can not be empty!");
+        	alert("Cage and Food Item options can not be empty!");
         	return false;
     	} 
-        if (document.getElementById("foodTypes").value == ""){
-        	alert("Cage and Food Type options can not be empty!");
+        if (document.getElementById("foodItems").value == ""){
+        	alert("Cage and Food Item options can not be empty!");
         	return false;
     	}       
 }
@@ -34,7 +54,7 @@ function validateForm() {
         <input type="submit" value="Logout"> 
 </form>
 <b1><br/>
-<form name ="formLog" action = "keeper.php" method = "POST">
+<form name ="formLog" action = "regulateFoods.php" method = "POST">
         <input type="submit" value="Go Back "> 
 </form>
 
@@ -84,17 +104,27 @@ echo "</select><br></br>             ";
 $query = "select food_type from Food_Stocks;";
 $result = mysqli_query($con, $query);
 
-$i = 0;
-echo "<label for='foodTypes'>Choose a Food Type:</label>";
-echo "<select name='foodTypes' id='foodTypes'> form=inputForm'";
+$iT = $_POST['foodTypes'];
+$cage = $_POST['cages'];
+echo "<script type='text/javascript'> typeSelect('$cage', 'cages'); </script>";
+$query = "select name, amount, unit from Foods natural join Food_Stocks natural join Stocks where food_type='$iT' 
+NOT IN (SELECT * FROM Regularizes_Food) ;";
+$itemResult = mysqli_query($con, $query);
+$temp = $itemResult->num_rows;
+
+echo "<label for='foodItems'>Choose Food Item:</label>";
+echo "<select name='foodItems' id='foodTypes'> '";
 echo "<option value=''></option>";
-for($i=0; $i < $result->num_rows; $i++){
-        $resultRow = $result->fetch_array();
-        $foodTypeOption = $resultRow['food_type'];
-        echo "<option value='$foodTypeOption'>$foodTypeOption</option>";
+for($i=0; $i < $itemResult->num_rows; $i++){ 
+    $resultRow = $itemResult->fetch_array();
+    $foodItemOption = $resultRow['name'];
+    $foodItemAmount = $resultRow['amount'];
+    $foodItemUnit = $resultRow['unit'];
+    echo "<option value='$foodItemOption'>$foodItemOption($foodItemAmount $foodItemUnit)</option>";
 }
-echo "</select>             ";
-echo "<input type='submit' value='Confirm Type'>"; 
+echo "</select>";
+echo "<br></br>";
+echo "<input type='submit' value='Assign'>";
 echo "</form>";
 
 mysqli_close($con);

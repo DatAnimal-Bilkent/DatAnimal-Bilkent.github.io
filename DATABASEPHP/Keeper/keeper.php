@@ -38,6 +38,7 @@ mysqli_close($con);
 		while($resultRow = $result->fetch_array()){
 			$assignedCageID = $resultRow["cage_id"];
 			echo "<t></t>Cage $assignedCageID";
+			echo "<br><br/>";
 		}
 	}else{
 		echo "No cage assigned";
