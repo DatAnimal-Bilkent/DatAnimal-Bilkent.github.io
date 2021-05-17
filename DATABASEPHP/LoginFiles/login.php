@@ -79,11 +79,9 @@ if ($num > 0)
 }
 else
 {
-	echo "<a href='index.php'>PRESS HERE TO TRY AGAIN!</a>";
+	echo "<a href='../index.php'>PRESS HERE TO TRY AGAIN!</a>";
 	echo "<br><br/>";
 	echo "Username and password didnt match.!";
-	mysqli_close($con);
 }
-echo "<br><br/>";
-echo "<a href = 'index.php'>LOGOUT</a>";
+
 ?>
